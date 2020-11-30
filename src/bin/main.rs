@@ -15,7 +15,7 @@ fn handle_connection(mut stream: TcpStream) {
 
     stream.read(&mut buffer).unwrap();
     let mut response = TcpResponse::new(String::from_utf8_lossy(&mut buffer[..]).to_string());
-    println!("{}", response.content());
+    println!("{}", String::from_utf8_lossy(&mut buffer[..]));
     stream.write(response.content().as_bytes()).unwrap();
     stream.flush().unwrap();
     stream.shutdown(Shutdown::Both).unwrap();
