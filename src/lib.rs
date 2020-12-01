@@ -1,6 +1,5 @@
 use std::net::{TcpListener, TcpStream};
 use std::thread;
-use std::fmt;
 pub struct TcpServer {
     listener: TcpListener,
 }
@@ -17,52 +16,6 @@ impl TcpServer {
             thread::spawn(move || {
                 conn_handler(stream);
             });
-        }
-    }
-
-    fn analyse_get(&self) {
-
-    }
-}
-
-/// Existing HTTP Methods
-/// source: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
-#[allow(non_camel_case_types)]
-enum Method {
-    GET,
-    HEAD,
-    POST,
-    PUT,
-    DELETE,
-    CONNECT,
-    OPTIONS,
-    TRACE,
-    PATCH,
-}
-// Create proper error type
-#[derive(Debug, Clone)]
-struct HttpError;
-
-impl fmt::Display for HttpError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "invalid first item to double")
-    }
-}
-
-impl Method {
-    // This function should return Result<Method, HttpError>
-    fn analyse_method(content: &str) -> Method {
-        match &content[..4] {
-            "GET" => Method::GET,
-            "HEA" => Method::HEAD,
-            "POS" => Method::POST,
-            "PUT" => Method::PUT,
-            "DEL" => Method::DELETE,
-            "CON" => Method::CONNECT,
-            "OPT" => Method::OPTIONS,
-            "TRA" => Method::TRACE,
-            "PAT" => Method::PATCH,
-            _ => panic!("Invalid method type!")
         }
     }
 }
