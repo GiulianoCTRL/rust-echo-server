@@ -6,6 +6,27 @@
 const EX_REQ: String = "GET / HTTP/1.1\r\nContent-Length: 10\r\n0123456789";
 const EX_RESP: String = "HTTP/1.1 200 OK\r\nContent-Length: 12\r\nPretty cool!";
 
+trait Message {
+    fn message_to_string(mut stream: TcpStream) -> String {
+        let mut buffer = [0u8; 64];
+        let mut content = String::new();
+    
+        loop {
+            match stream.read(&mut buffer) {
+                Ok(i) if i == 64 => content.push_str(&String::from_utf8_lossy(&mut buffer[..i])),
+                Ok(i) => {
+                    content.push_str(&String::from_utf8_lossy(&mut buffer[..i]));
+                    break
+                },
+                Err(e) => panic!("Could not read from stream: {}", e),
+            }
+        }
+        content
+    }
+
+    fn get_start_line(self) -> 
+}
+
 struct Request {
     start_line: RequestStartLine,
     headers: Option<Headers>,
@@ -61,6 +82,7 @@ enum Method {
     OPTIONS,
     TRACE,
     PATCH,
+    RESPONSE,
 }
 
 impl Method {
@@ -76,7 +98,7 @@ impl Method {
             "OPT" => Method::OPTIONS,
             "TRA" => Method::TRACE,
             "PAT" => Method::PATCH,
-            _ => panic!("Invalid method type!")
+            "HTT" => Method::RESPONSE,
         }
     }
 }

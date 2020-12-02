@@ -25,20 +25,3 @@ trait HttpServer {
 
     fn process_post(&self) ;
 }
-
-pub struct TcpResponse {
-    content: String,
-}
-
-impl TcpResponse {
-    pub fn new(content: String) -> TcpResponse {
-        let headers = format!("HTTP/1.1 200 OK\r\nContent-Length: {}\r\n", content.len());
-        TcpResponse {
-            content: format!("{}{}", headers, content),
-        }
-    }
-
-    pub fn content(&mut self) -> &str {
-        &self.content
-    }
-}
